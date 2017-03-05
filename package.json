@@ -1,0 +1,33 @@
+{
+  "name": "purescript-lab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "artifacts/dist",
+  "test": "artifacts/test",
+  "config": {
+    "main": "Main",
+		"test": "Test.Main"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "istall": "npm i && bower i",
+    "compile": "rm -fr $npm_package_main && psc -c 'src/**/*.purs' 'bower_components/purescript-*/src/**/*.purs' -o $npm_package_main",
+    "bundle": "psc-bundle 'artifacts/dist/**/*.js' -o ./$npm_package_main/index.js -m $npm_package_config_main && echo \"PS[\\\"$npm_package_config_main\\\"].main();\" >> ./$npm_package_main/index.js",
+    "build": "npm run compile && npm run bundle",
+    "start_dev": "nodemon -e purs --exec 'npm run build --silent && node $npm_package_main/index.js'",
+    "compile_test": "rm -fr $npm_package_test && psc --no-opts --no-magic-do -c 'test/**/*.purs' 'bower_components/purescript-*/src/**/*.purs' 'src/**/*.purs' -o $npm_package_test",
+		"bundle_test": "psc-bundle 'artifacts/test/**/*.js' -o ./$npm_package_test/index.js -m $npm_package_config_test && echo \"PS[\\\"$npm_package_config_test\\\"].main();\" >> ./$npm_package_test/index.js",
+		"build_test": "npm run compile_test && npm run bundle_test",
+    "test_dev": "nodemon -e purs --exec 'npm run build_test --silent && node $npm_package_test/index.js'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "bower": "^1.8.0",
+    "nodemon": "^1.11.0",
+    "purescript": "^0.10.7"
+  }
+}
